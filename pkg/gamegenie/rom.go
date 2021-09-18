@@ -7,6 +7,9 @@ import (
 	"io/ioutil"
 )
 
+const checksumStart = 0x18e
+const romStart = 0x200
+
 // ROM is a structure that represents a loaded SEGA Genesis ROM
 type ROM struct {
 	raw []byte
@@ -37,6 +40,23 @@ func (r *ROM) ApplyPatch(pi PatchInfo) error {
 
 	valueBytes := buf.Bytes()
 	copy(r.raw[pi.Address:pi.Address+uint32(len(valueBytes))], valueBytes)
+	return nil
+}
+
+// FixChecksum is a method for computing the ROM checksum and writing back to the Checksum field in the ROM header
+func (r *ROM) FixChecksum() error {
+	sum := uint16(0)
+	for i := romStart; i < len(r.raw); i += 2 {
+		sum += binary.BigEndian.Uint16(r.raw[i : i+2])
+	}
+
+	var buf bytes.Buffer
+	if err := binary.Write(&buf, binary.BigEndian, &sum); err != nil {
+		return err
+	}
+
+	sumBytes := buf.Bytes()
+	copy(r.raw[checksumStart:checksumStart+len(sumBytes)], sumBytes)
 	return nil
 }
 

@@ -55,6 +55,14 @@ func main() {
 		os.Exit(1)
 	}
 
+	// Fixup the checksum
+	fmt.Println("* Re-computing the checksum...")
+	err = rom.FixChecksum()
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
 	// Export the patched ROM
 	outputPath := os.Args[3]
 	fmt.Printf("* Saving the patched ROM (%v)...\n", outputPath)
