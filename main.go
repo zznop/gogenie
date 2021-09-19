@@ -8,8 +8,11 @@ import (
 	"github.com/zznop/gogenie/pkg/gamegenie"
 )
 
+var version = "" // Fixed by github workflows
+
 func displayUsage() {
-	fmt.Printf(`Usage: %v <code> <in> <outt>
+	fmt.Printf(`gogenie %v
+Usage: %v <code> <in> <out>
 
 Required:
   code    SEGA Genesis Game Genie alphanumeric code
@@ -18,7 +21,7 @@ Required:
 
 example:
   %v RFAA-A6VR StreetsOfRage.bin StreetsOfRagePatched.bin
-`, os.Args[0], os.Args[0])
+`, version, os.Args[0], os.Args[0])
 	os.Exit(1)
 }
 
