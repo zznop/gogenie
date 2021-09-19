@@ -1,4 +1,4 @@
-# gogenie
+# gogenie ![build status](https://github.com/zznop/gogenie/actions/workflows/build.yml/badge.svg)
 
 ## Description
 
